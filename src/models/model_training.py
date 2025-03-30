@@ -15,7 +15,7 @@ from sklearn.ensemble import RandomForestRegressor
 def main(input_path: str, params_path: str, output_path: str):
     # Load scaled train data
     X_train_scaled = pd.read_csv(f"{input_path}/X_train_scaled.csv")
-    y_train = pd.read_csv(f"{input_path}/y_train.csv", squeeze=True)
+    y_train = pd.read_csv(f"{input_path}/y_train.csv").squeeze("columns")
     
     # Load best parameters
     with open(params_path, "rb") as f:

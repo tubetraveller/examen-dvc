@@ -8,6 +8,6 @@
 /y_test.csv
 /X_train_scaled.csv
 /X_test_scaled.csv
-/processed_data
+/processed_data/*.csv
 /predictions/predictions.csv
 /raw_data/raw.csv

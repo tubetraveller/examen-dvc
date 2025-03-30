@@ -16,7 +16,7 @@ from sklearn.ensemble import RandomForestRegressor
 def main(input_path: str, output_path: str):
     # Load the scaled training data
     X_train_scaled = pd.read_csv(f"{input_path}/X_train_scaled.csv")
-    y_train = pd.read_csv(f"{input_path}/y_train.csv", squeeze=True)
+    y_train = pd.read_csv(f"{input_path}/y_train.csv").squeeze("columns")
     
     # Define parameter grid (example)
     param_grid = {

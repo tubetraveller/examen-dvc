@@ -1,7 +1,7 @@
 """
 model_training.py
 
-Script to train a regression model using the best parameters found by GridSearch.
+Script to train a regression model using the best parameters found by GridSearch with GradientBoostingRegressor.
 
 Use:
     python model_training.py --input_path data/processed_data --params_path models/best_params.pkl --output_path models
@@ -10,7 +10,7 @@ Use:
 import argparse
 import pandas as pd
 import pickle
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import GradientBoostingRegressor
 
 def main(input_path: str, params_path: str, output_path: str):
     # Load scaled train data
@@ -22,7 +22,7 @@ def main(input_path: str, params_path: str, output_path: str):
         best_params = pickle.load(f)
     
     # Initialize model with best parameters
-    model = RandomForestRegressor(**best_params, random_state=42)
+    model = GradientBoostingRegressor(**best_params, random_state=42)
     
     # Train the model
     model.fit(X_train_scaled, y_train)
@@ -34,7 +34,7 @@ def main(input_path: str, params_path: str, output_path: str):
     print("Model training completed. Model saved.")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Train a regression model with best parameters.")
+    parser = argparse.ArgumentParser(description="Train a regression model with best parameters using GradientBoostingRegressor.")
     parser.add_argument("--input_path", type=str, required=True, help="Path to scaled X_train and y_train.")
     parser.add_argument("--params_path", type=str, required=True, help="Path to best_params.pkl.")
     parser.add_argument("--output_path", type=str, required=True, help="Directory to save the trained model.")

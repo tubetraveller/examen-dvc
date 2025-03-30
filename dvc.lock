@@ -1,8 +1,8 @@
 schema: '2.0'
 stages:
   split_data:
-    cmd: python src/data/data_splitting.py --input_path data/raw_data/raw.csv --output_path
-      data/processed_data
+    cmd: "python src/data/data_splitting.py --input_path data/raw_data/raw.csv --output_path
+      data/processed_data --test_size 0.2 --random_state 42\n"
     deps:
     - path: data/raw_data/raw.csv
       hash: md5
@@ -10,8 +10,12 @@ stages:
       size: 333757
     - path: src/data/data_splitting.py
       hash: md5
-      md5: 7fd08d81bfbf111c061e82d3d6cbac0c
-      size: 1996
+      md5: 0c3303238bcf4dde0e9a5242753feb75
+      size: 2126
+    params:
+      params.yaml:
+        split_data.random_state: 42
+        split_data.test_size: 0.2
     outs:
     - path: data/processed_data
       hash: md5
@@ -19,8 +23,8 @@ stages:
       size: 294499
       nfiles: 4
   normalize:
-    cmd: python src/data/data_normalization.py --input_path data/processed_data --output_path
-      data/processed_data_norm
+    cmd: "python src/data/data_normalization.py --input_path data/processed_data --output_path
+      data/processed_data_norm\n"
     deps:
     - path: data/processed_data/X_test.csv
       hash: md5
@@ -44,8 +48,8 @@ stages:
       md5: c1b80eb7f083888b625dd0369cf381f8
       size: 227497
   grid_search:
-    cmd: python src/models/grid_search.py --input_path data/processed_data_norm --output_path
-      models
+    cmd: "python src/models/grid_search.py --input_path data/processed_data_norm --output_path
+      models --n_estimators 50 --learning_rate 0.1 --max_depth 5\n"
     deps:
     - path: data/processed_data/y_train.csv
       hash: md5
@@ -57,16 +61,21 @@ stages:
       size: 227497
     - path: src/models/grid_search.py
       hash: md5
-      md5: 072e5bbc70d41bf0e2cfd7dc84913e6b
-      size: 2051
+      md5: 39ea2b418d61d2c76fd18cf8183438f3
+      size: 2592
+    params:
+      params.yaml:
+        grid_search.learning_rate: 0.1
+        grid_search.max_depth: 5
+        grid_search.n_estimators: 50
     outs:
     - path: models/best_params.pkl
       hash: md5
-      md5: 3cddfb1c7bc54bfd30ae65f9982a7918
+      md5: 835ba725fa94135959051fdfa4a2ead1
       size: 72
   training:
-    cmd: python src/models/model_training.py --input_path data/processed_data_norm
-      --params_path models/best_params.pkl --output_path models
+    cmd: "python src/models/model_training.py --input_path data/processed_data_norm
+      --params_path models/best_params.pkl --output_path models\n"
     deps:
     - path: data/processed_data/y_train.csv
       hash: md5
@@ -78,7 +87,7 @@ stages:
       size: 227497
     - path: models/best_params.pkl
       hash: md5
-      md5: 3cddfb1c7bc54bfd30ae65f9982a7918
+      md5: 835ba725fa94135959051fdfa4a2ead1
       size: 72
     - path: src/models/model_training.py
       hash: md5
@@ -87,12 +96,12 @@ stages:
     outs:
     - path: models/trained_model.pkl
       hash: md5
-      md5: c53b987456a5c52d2553a730e42859c2
-      size: 211144
+      md5: 3304ae6614416daf039baf75ec3f1ef3
+      size: 192976
   evaluation:
-    cmd: python src/models/model_evaluation.py --model_path models/trained_model.pkl
+    cmd: "python src/models/model_evaluation.py --model_path models/trained_model.pkl
       --input_path data/processed_data_norm --metrics_path metrics/scores.json --output_path
-      data/predictions
+      data/predictions\n"
     deps:
     - path: data/processed_data/y_test.csv
       hash: md5
@@ -104,8 +113,8 @@ stages:
       size: 57026
     - path: models/trained_model.pkl
       hash: md5
-      md5: c53b987456a5c52d2553a730e42859c2
-      size: 211144
+      md5: 3304ae6614416daf039baf75ec3f1ef3
+      size: 192976
     - path: src/models/model_evaluation.py
       hash: md5
       md5: 0ee26c99e73afbd44c478569eed568b2
@@ -113,9 +122,9 @@ stages:
     outs:
     - path: data/predictions/predictions.csv
       hash: md5
-      md5: 930c3c7eb214ea4acdb7ab4218306e85
-      size: 13220
+      md5: 484c799f5f4b4e831efe5a745b1903a5
+      size: 13205
     - path: metrics/scores.json
       hash: md5
-      md5: bddc763dc81f11f40a220475d754ebc9
+      md5: 76bdba099208151bfa790a07e266b673
       size: 64

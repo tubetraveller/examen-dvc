@@ -6,3 +6,4 @@
 /processed_data_norm/*.csv
 /predictions/predictions.csv
 /raw_data/raw.csv
+/processed_data

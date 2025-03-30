@@ -1,0 +1,52 @@
+stages:
+  split_data:
+    cmd: python src/data/data_splitting.py --input_path data/raw_data/raw.csv --output_path
+      data/processed_data
+    deps:
+    - data/raw_data/raw.csv
+    - src/data/data_splitting.py
+    outs:
+    - data/processed_data
+  normalize:
+    cmd: python src/data/data_normalization.py --input_path data/processed_data --output_path
+      data/processed_data_norm
+    deps:
+    - data/processed_data/X_test.csv
+    - data/processed_data/X_train.csv
+    - src/data/data_normalization.py
+    outs:
+    - data/processed_data_norm/X_test_scaled.csv
+    - data/processed_data_norm/X_train_scaled.csv
+  grid_search:
+    cmd: python src/models/grid_search.py --input_path data/processed_data_norm --output_path
+      models
+    deps:
+    - data/processed_data/y_train.csv
+    - data/processed_data_norm/X_train_scaled.csv
+    - src/models/grid_search.py
+    outs:
+    - models/best_params.pkl
+  training:
+    cmd: python src/models/model_training.py --input_path data/processed_data_norm
+      --params_path models/best_params.pkl --output_path models
+    deps:
+    - data/processed_data/y_train.csv
+    - data/processed_data_norm/X_train_scaled.csv
+    - models/best_params.pkl
+    - src/models/model_training.py
+    outs:
+    - models/trained_model.pkl
+  evaluation:
+    cmd: python src/models/model_evaluation.py --model_path models/trained_model.pkl
+      --input_path data/processed_data_norm --metrics_path metrics/scores.json --output_path
+      data/predictions
+    deps:
+    - data/processed_data/y_test.csv
+    - data/processed_data_norm/X_test_scaled.csv
+    - models/trained_model.pkl
+    - src/models/model_evaluation.py
+    outs:
+    - data/predictions/predictions.csv
+    metrics:
+    - metrics/scores.json:
+        cache: false

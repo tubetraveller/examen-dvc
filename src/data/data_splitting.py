@@ -14,6 +14,9 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 def main(input_path: str, output_path: str, test_size: float = 0.2, random_state: int = 42):
+    import os
+    os.makedirs(output_path, exist_ok=True)
+    
     # Read the dataset
     df = pd.read_csv(input_path)
     

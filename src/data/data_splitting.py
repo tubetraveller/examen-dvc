@@ -5,6 +5,8 @@ Script to split the flotation dataset into train and test sets.
 We ignore the 'date' column for prediction, and assume 'silica_concentrate'
 is the last column in the dataset.
 
+Use:
+    python data_splitting.py --input_path data/raw_data/raw.csv --output_path data/processed_data
 """
 
 import argparse

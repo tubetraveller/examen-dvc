@@ -8,6 +8,10 @@ stages:
       hash: md5
       md5: 617b56af2992376d5c3e91ad80823898
       size: 333757
+    - path: params.yaml
+      hash: md5
+      md5: fea9605d8d633b218e8ddcc83cd67fae
+      size: 117
     - path: src/data/data_splitting.py
       hash: md5
       md5: 0c3303238bcf4dde0e9a5242753feb75
@@ -59,6 +63,10 @@ stages:
       hash: md5
       md5: c1b80eb7f083888b625dd0369cf381f8
       size: 227497
+    - path: params.yaml
+      hash: md5
+      md5: fea9605d8d633b218e8ddcc83cd67fae
+      size: 117
     - path: src/models/grid_search.py
       hash: md5
       md5: 39ea2b418d61d2c76fd18cf8183438f3

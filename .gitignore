@@ -1,3 +1,6 @@
-/venv
-/clean_data.csv
 /env
+/data/prediction.csv
+/data/processed_data/*.csv
+/data/processed_data_norm/*.csv
+/data/predictions/predictions.csv
+/data/raw_data/raw.csv

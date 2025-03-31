@@ -1,3 +1,4 @@
 /env
 /data/*
 !/data/.gitignore
+!/data/raw_data.dvc
